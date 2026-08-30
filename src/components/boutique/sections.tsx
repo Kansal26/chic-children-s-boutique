@@ -53,14 +53,19 @@ export function Hero() {
         alt="Child wearing a cream knit cardigan and blush pleated dress in a sunlit room"
         width={1920}
         height={1280}
-        className="absolute inset-0 h-full w-full object-cover object-[70%_center]"
+        className="absolute inset-0 h-full w-full object-cover object-[74%_center] lg:object-[70%_center]"
       />
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 hidden lg:block"
         style={{ backgroundImage: "var(--gradient-veil)" }}
         aria-hidden="true"
       />
-      <div className="relative mx-auto flex min-h-[92vh] max-w-[88rem] items-center px-6 pb-20 pt-40 sm:px-8">
+      <div
+        className="absolute inset-0 lg:hidden"
+        style={{ backgroundImage: "var(--gradient-veil-vertical)" }}
+        aria-hidden="true"
+      />
+      <div className="relative mx-auto flex min-h-[92vh] max-w-[88rem] items-end px-6 pb-24 pt-40 sm:px-8 lg:items-center lg:pb-20">
         <div className="reveal max-w-xl">
           <p className="eyebrow">Spring · Summer Collection</p>
           <h1 className="mt-6 font-serif text-[2.75rem] leading-[1.05] text-foreground sm:text-6xl lg:text-[4.25rem]">

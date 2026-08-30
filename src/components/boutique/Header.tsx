@@ -52,7 +52,7 @@ export function Header() {
         </div>
 
         <a href="#top" className="min-w-0 text-center">
-          <span className="block truncate font-serif text-xl tracking-[0.16em] text-foreground sm:text-2xl">
+          <span className="block truncate font-serif text-base tracking-[0.1em] text-foreground sm:text-2xl sm:tracking-[0.16em]">
             MAISON PETIT
           </span>
           <span className="mt-0.5 hidden text-[0.5rem] uppercase tracking-[0.44em] text-muted-foreground sm:block">
