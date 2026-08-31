@@ -47,6 +47,18 @@
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
   --color-ink: var(--ink);
+  --color-pastel-pink: var(--pastel-pink);
+  --color-pastel-pink-deep: var(--pastel-pink-deep);
+  --color-pastel-blue: var(--pastel-blue);
+  --color-pastel-blue-deep: var(--pastel-blue-deep);
+  --color-pastel-lavender: var(--pastel-lavender);
+  --color-pastel-lavender-deep: var(--pastel-lavender-deep);
+  --color-pastel-peach: var(--pastel-peach);
+  --color-pastel-peach-deep: var(--pastel-peach-deep);
+  --color-pastel-lemon: var(--pastel-lemon);
+  --color-pastel-lemon-deep: var(--pastel-lemon-deep);
+  --color-pastel-mint: var(--pastel-mint);
+  --color-pastel-mint-deep: var(--pastel-mint-deep);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
