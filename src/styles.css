@@ -161,6 +161,14 @@
     oklch(0.985 0.006 90 / 0.4) 68%,
     oklch(0.985 0.006 90 / 0.05) 100%
   );
+  --gradient-pastel: linear-gradient(
+    120deg,
+    var(--pastel-pink) 0%,
+    var(--pastel-lemon) 25%,
+    var(--pastel-mint) 50%,
+    var(--pastel-blue) 75%,
+    var(--pastel-lavender) 100%
+  );
 }
 
 .dark {
