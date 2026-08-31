@@ -93,19 +93,19 @@ export function Hero() {
 }
 
 const SERVICES = [
-  { icon: Leaf, text: "Organic & OEKO-TEX certified" },
-  { icon: Scissors, text: "Hand-finished in Portugal" },
-  { icon: Sparkles, text: "Complimentary gift wrapping" },
-  { icon: Truck, text: "Express worldwide delivery" },
+  { icon: Leaf, text: "Organic & OEKO-TEX certified", color: "text-pastel-mint-deep" },
+  { icon: Scissors, text: "Hand-finished in Portugal", color: "text-pastel-pink-deep" },
+  { icon: Sparkles, text: "Complimentary gift wrapping", color: "text-pastel-lavender-deep" },
+  { icon: Truck, text: "Express worldwide delivery", color: "text-pastel-blue-deep" },
 ];
 
 export function ServiceStrip() {
   return (
-    <section className="border-y border-border/70 bg-cream/60">
+    <section className="border-y border-border/70 bg-pastel-lemon/35">
       <div className="mx-auto grid max-w-[88rem] grid-cols-2 gap-y-6 px-6 py-8 sm:px-8 lg:grid-cols-4">
-        {SERVICES.map(({ icon: Icon, text }) => (
+        {SERVICES.map(({ icon: Icon, text, color }) => (
           <div key={text} className="flex min-w-0 items-center justify-center gap-3">
-            <Icon className="h-4 w-4 shrink-0 text-gold" strokeWidth={1.25} />
+            <Icon className={`h-4 w-4 shrink-0 ${color}`} strokeWidth={1.5} />
             <span className="text-[0.625rem] uppercase tracking-[0.2em] text-muted-foreground">
               {text}
             </span>
@@ -117,12 +117,12 @@ export function ServiceStrip() {
 }
 
 const CATEGORIES = [
-  { name: "Newborn", note: "0 – 12 m", img: cNewborn },
-  { name: "Girls", note: "2 – 12 y", img: cGirls },
-  { name: "Boys", note: "2 – 12 y", img: cBoys },
-  { name: "Accessories", note: "Bonnets & bows", img: cAcc },
-  { name: "Shoes", note: "Soft leather", img: cShoes },
-  { name: "Gifting", note: "Curated boxes", img: cGift },
+  { name: "Newborn", note: "0 – 12 m", img: cNewborn, tint: "bg-pastel-pink", ring: "group-hover:ring-pastel-pink-deep", text: "group-hover:text-pastel-pink-deep" },
+  { name: "Girls", note: "2 – 12 y", img: cGirls, tint: "bg-pastel-lavender", ring: "group-hover:ring-pastel-lavender-deep", text: "group-hover:text-pastel-lavender-deep" },
+  { name: "Boys", note: "2 – 12 y", img: cBoys, tint: "bg-pastel-blue", ring: "group-hover:ring-pastel-blue-deep", text: "group-hover:text-pastel-blue-deep" },
+  { name: "Accessories", note: "Bonnets & bows", img: cAcc, tint: "bg-pastel-peach", ring: "group-hover:ring-pastel-peach-deep", text: "group-hover:text-pastel-peach-deep" },
+  { name: "Shoes", note: "Soft leather", img: cShoes, tint: "bg-pastel-lemon", ring: "group-hover:ring-pastel-lemon-deep", text: "group-hover:text-pastel-lemon-deep" },
+  { name: "Gifting", note: "Curated boxes", img: cGift, tint: "bg-pastel-mint", ring: "group-hover:ring-pastel-mint-deep", text: "group-hover:text-pastel-mint-deep" },
 ];
 
 export function Categories() {
@@ -136,17 +136,19 @@ export function Categories() {
       <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
         {CATEGORIES.map((c) => (
           <a key={c.name} href="#arrivals" className="group text-center">
-            <div className="relative mx-auto aspect-square w-full overflow-hidden rounded-full ring-1 ring-border transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:ring-gold">
-              <img
-                src={c.img}
-                alt={c.name}
-                loading="lazy"
-                width={700}
-                height={700}
-                className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-110"
-              />
+            <div className={`rounded-full p-2 transition-colors duration-500 ${c.tint}`}>
+              <div className={`relative mx-auto aspect-square w-full overflow-hidden rounded-full ring-1 ring-border transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:ring-2 ${c.ring}`}>
+                <img
+                  src={c.img}
+                  alt={c.name}
+                  loading="lazy"
+                  width={700}
+                  height={700}
+                  className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-110"
+                />
+              </div>
             </div>
-            <p className="mt-5 font-serif text-lg text-foreground transition-colors duration-300 group-hover:text-blush-deep">
+            <p className={`mt-5 font-serif text-lg text-foreground transition-colors duration-300 ${c.text}`}>
               {c.name}
             </p>
             <p className="mt-0.5 text-[0.5625rem] uppercase tracking-[0.24em] text-muted-foreground">
