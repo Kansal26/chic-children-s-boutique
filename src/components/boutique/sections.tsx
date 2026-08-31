@@ -93,19 +93,19 @@ export function Hero() {
 }
 
 const SERVICES = [
-  { icon: Leaf, text: "Organic & OEKO-TEX certified" },
-  { icon: Scissors, text: "Hand-finished in Portugal" },
-  { icon: Sparkles, text: "Complimentary gift wrapping" },
-  { icon: Truck, text: "Express worldwide delivery" },
+  { icon: Leaf, text: "Organic & OEKO-TEX certified", color: "text-pastel-mint-deep" },
+  { icon: Scissors, text: "Hand-finished in Portugal", color: "text-pastel-pink-deep" },
+  { icon: Sparkles, text: "Complimentary gift wrapping", color: "text-pastel-lavender-deep" },
+  { icon: Truck, text: "Express worldwide delivery", color: "text-pastel-blue-deep" },
 ];
 
 export function ServiceStrip() {
   return (
-    <section className="border-y border-border/70 bg-cream/60">
+    <section className="border-y border-border/70 bg-pastel-lemon/35">
       <div className="mx-auto grid max-w-[88rem] grid-cols-2 gap-y-6 px-6 py-8 sm:px-8 lg:grid-cols-4">
-        {SERVICES.map(({ icon: Icon, text }) => (
+        {SERVICES.map(({ icon: Icon, text, color }) => (
           <div key={text} className="flex min-w-0 items-center justify-center gap-3">
-            <Icon className="h-4 w-4 shrink-0 text-gold" strokeWidth={1.25} />
+            <Icon className={`h-4 w-4 shrink-0 ${color}`} strokeWidth={1.5} />
             <span className="text-[0.625rem] uppercase tracking-[0.2em] text-muted-foreground">
               {text}
             </span>
@@ -117,12 +117,12 @@ export function ServiceStrip() {
 }
 
 const CATEGORIES = [
-  { name: "Newborn", note: "0 – 12 m", img: cNewborn },
-  { name: "Girls", note: "2 – 12 y", img: cGirls },
-  { name: "Boys", note: "2 – 12 y", img: cBoys },
-  { name: "Accessories", note: "Bonnets & bows", img: cAcc },
-  { name: "Shoes", note: "Soft leather", img: cShoes },
-  { name: "Gifting", note: "Curated boxes", img: cGift },
+  { name: "Newborn", note: "0 – 12 m", img: cNewborn, tint: "bg-pastel-pink", ring: "group-hover:ring-pastel-pink-deep", text: "group-hover:text-pastel-pink-deep" },
+  { name: "Girls", note: "2 – 12 y", img: cGirls, tint: "bg-pastel-lavender", ring: "group-hover:ring-pastel-lavender-deep", text: "group-hover:text-pastel-lavender-deep" },
+  { name: "Boys", note: "2 – 12 y", img: cBoys, tint: "bg-pastel-blue", ring: "group-hover:ring-pastel-blue-deep", text: "group-hover:text-pastel-blue-deep" },
+  { name: "Accessories", note: "Bonnets & bows", img: cAcc, tint: "bg-pastel-peach", ring: "group-hover:ring-pastel-peach-deep", text: "group-hover:text-pastel-peach-deep" },
+  { name: "Shoes", note: "Soft leather", img: cShoes, tint: "bg-pastel-lemon", ring: "group-hover:ring-pastel-lemon-deep", text: "group-hover:text-pastel-lemon-deep" },
+  { name: "Gifting", note: "Curated boxes", img: cGift, tint: "bg-pastel-mint", ring: "group-hover:ring-pastel-mint-deep", text: "group-hover:text-pastel-mint-deep" },
 ];
 
 export function Categories() {
@@ -136,17 +136,19 @@ export function Categories() {
       <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
         {CATEGORIES.map((c) => (
           <a key={c.name} href="#arrivals" className="group text-center">
-            <div className="relative mx-auto aspect-square w-full overflow-hidden rounded-full ring-1 ring-border transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:ring-gold">
-              <img
-                src={c.img}
-                alt={c.name}
-                loading="lazy"
-                width={700}
-                height={700}
-                className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-110"
-              />
+            <div className={`rounded-full p-2 transition-colors duration-500 ${c.tint}`}>
+              <div className={`relative mx-auto aspect-square w-full overflow-hidden rounded-full ring-1 ring-border transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:ring-2 ${c.ring}`}>
+                <img
+                  src={c.img}
+                  alt={c.name}
+                  loading="lazy"
+                  width={700}
+                  height={700}
+                  className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-110"
+                />
+              </div>
             </div>
-            <p className="mt-5 font-serif text-lg text-foreground transition-colors duration-300 group-hover:text-blush-deep">
+            <p className={`mt-5 font-serif text-lg text-foreground transition-colors duration-300 ${c.text}`}>
               {c.name}
             </p>
             <p className="mt-0.5 text-[0.5625rem] uppercase tracking-[0.24em] text-muted-foreground">
@@ -160,15 +162,15 @@ export function Categories() {
 }
 
 const PRODUCTS = [
-  { name: "Amélie Hand-Knit Cardigan", price: "€148", tag: "New", img: p1 },
-  { name: "Colette Pleated Silk Dress", price: "€216", tag: "Limited Edition", img: p2 },
-  { name: "Margaux Leather Mary Janes", price: "€132", tag: null, img: p3 },
-  { name: "Henri Washed Linen Shirt", price: "€96", tag: "New", img: p4 },
+  { name: "Amélie Hand-Knit Cardigan", price: "€148", tag: "New", tagStyle: "border-pastel-pink-deep/40 bg-pastel-pink/85 text-pastel-pink-deep", img: p1 },
+  { name: "Colette Pleated Silk Dress", price: "€216", tag: "Limited Edition", tagStyle: "border-pastel-lavender-deep/40 bg-pastel-lavender/85 text-pastel-lavender-deep", img: p2 },
+  { name: "Margaux Leather Mary Janes", price: "€132", tag: null, tagStyle: "", img: p3 },
+  { name: "Henri Washed Linen Shirt", price: "€96", tag: "New", tagStyle: "border-pastel-blue-deep/40 bg-pastel-blue/85 text-pastel-blue-deep", img: p4 },
 ];
 
 export function Arrivals() {
   return (
-    <section id="arrivals" className="bg-cream/45 py-24 sm:py-32">
+    <section id="arrivals" className="bg-pastel-blue/25 py-24 sm:py-32">
       <div className="mx-auto max-w-[88rem] px-6 sm:px-8">
         <SectionHeading
           eyebrow="Just Arrived"
@@ -188,7 +190,7 @@ export function Arrivals() {
                   className="aspect-[4/5] w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.07]"
                 />
                 {p.tag ? (
-                  <span className="absolute left-4 top-4 rounded-[6px] border border-gold/50 bg-background/85 px-2.5 py-1 text-[0.5625rem] uppercase tracking-[0.22em] text-gold backdrop-blur-sm">
+                  <span className={`absolute left-4 top-4 rounded-[6px] border px-2.5 py-1 text-[0.5625rem] uppercase tracking-[0.22em] backdrop-blur-sm ${p.tagStyle}`}>
                     {p.tag}
                   </span>
                 ) : null}
@@ -255,12 +257,12 @@ export function Story() {
           </p>
           <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border/70 pt-8">
             {[
-              ["50", "Years"],
-              ["11", "Artisans"],
-              ["100%", "Natural fibres"],
-            ].map(([n, l]) => (
+              ["50", "Years", "text-pastel-pink-deep"],
+              ["11", "Artisans", "text-pastel-blue-deep"],
+              ["100%", "Natural fibres", "text-pastel-mint-deep"],
+            ].map(([n, l, c]) => (
               <div key={l}>
-                <p className="font-serif text-3xl text-foreground">{n}</p>
+                <p className={`font-serif text-3xl ${c}`}>{n}</p>
                 <p className="mt-1 text-[0.5625rem] uppercase tracking-[0.2em] text-muted-foreground">
                   {l}
                 </p>
@@ -278,15 +280,21 @@ const QUOTES = [
     quote:
       "The rare children's label that parents covet as much as their children do.",
     source: "Vogue Bambini",
+    color: "text-pastel-pink-deep",
+    wash: "bg-pastel-pink/30",
   },
   {
     quote:
       "Impeccably made, quietly beautiful — the christening gown became a family heirloom.",
     source: "Éloïse M., Paris",
+    color: "text-pastel-blue-deep",
+    wash: "bg-pastel-blue/30",
   },
   {
     quote: "A masterclass in restraint. Nothing shouts, everything lasts.",
     source: "Milk Magazine",
+    color: "text-pastel-lavender-deep",
+    wash: "bg-pastel-lavender/30",
   },
 ];
 
@@ -294,16 +302,16 @@ const PRESS = ["VOGUE BAMBINI", "MILK", "T MAGAZINE", "KINFOLK", "MONOCLE"];
 
 export function Testimonials() {
   return (
-    <section className="border-y border-border/70 bg-cream/45 py-24 sm:py-32">
+    <section className="border-y border-border/70 bg-pastel-peach/25 py-24 sm:py-32">
       <div className="mx-auto max-w-[88rem] px-6 sm:px-8">
         <SectionHeading eyebrow="Well Received" title="In good company" />
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
           {QUOTES.map((q) => (
             <figure
               key={q.source}
-              className="hover-lift rounded-[12px] border border-border/70 bg-background p-8 shadow-[var(--shadow-soft)]"
+              className={`hover-lift rounded-[12px] border border-border/70 p-8 shadow-[var(--shadow-soft)] ${q.wash}`}
             >
-              <span className="font-serif text-4xl leading-none text-gold">“</span>
+              <span className={`font-serif text-4xl leading-none ${q.color}`}>“</span>
               <blockquote className="mt-3 font-serif text-lg leading-relaxed text-foreground">
                 {q.quote}
               </blockquote>
@@ -331,7 +339,10 @@ export function Testimonials() {
 export function Newsletter() {
   return (
     <section className="mx-auto max-w-[88rem] px-6 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-xl text-center">
+      <div
+        className="mx-auto max-w-3xl rounded-[24px] border border-border/60 px-6 py-16 text-center shadow-[var(--shadow-soft)] sm:px-16"
+        style={{ backgroundImage: "var(--gradient-pastel)" }}
+      >
         <p className="eyebrow">The List</p>
         <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-foreground sm:text-[2.75rem]">
           Join for early access
@@ -341,7 +352,7 @@ export function Newsletter() {
           limited pieces — twice a season, never more.
         </p>
         <form
-          className="mt-10 flex flex-col gap-3 sm:flex-row"
+          className="mx-auto mt-10 flex max-w-md flex-col gap-3 sm:flex-row"
           onSubmit={(e) => e.preventDefault()}
         >
           <label htmlFor="newsletter-email" className="sr-only">
@@ -378,7 +389,7 @@ const FOOTER = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/70 bg-cream/70">
+    <footer className="border-t border-border/70 bg-pastel-mint/30">
       <div className="mx-auto max-w-[88rem] px-6 py-16 sm:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">

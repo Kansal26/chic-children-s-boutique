@@ -47,6 +47,18 @@
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
   --color-ink: var(--ink);
+  --color-pastel-pink: var(--pastel-pink);
+  --color-pastel-pink-deep: var(--pastel-pink-deep);
+  --color-pastel-blue: var(--pastel-blue);
+  --color-pastel-blue-deep: var(--pastel-blue-deep);
+  --color-pastel-lavender: var(--pastel-lavender);
+  --color-pastel-lavender-deep: var(--pastel-lavender-deep);
+  --color-pastel-peach: var(--pastel-peach);
+  --color-pastel-peach-deep: var(--pastel-peach-deep);
+  --color-pastel-lemon: var(--pastel-lemon);
+  --color-pastel-lemon-deep: var(--pastel-lemon-deep);
+  --color-pastel-mint: var(--pastel-mint);
+  --color-pastel-mint-deep: var(--pastel-mint-deep);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -81,7 +93,21 @@
   --gold-soft: oklch(0.9 0.04 88);
   --ink: oklch(0.3 0.014 60);
 
-  --background: var(--ivory);
+  /* Pastel candy palette — keeps the ivory base but adds playful color */
+  --pastel-pink: oklch(0.92 0.045 12);
+  --pastel-pink-deep: oklch(0.68 0.1 12);
+  --pastel-blue: oklch(0.92 0.035 230);
+  --pastel-blue-deep: oklch(0.62 0.08 235);
+  --pastel-lavender: oklch(0.92 0.035 300);
+  --pastel-lavender-deep: oklch(0.62 0.08 305);
+  --pastel-peach: oklch(0.93 0.045 55);
+  --pastel-peach-deep: oklch(0.68 0.1 50);
+  --pastel-lemon: oklch(0.94 0.05 100);
+  --pastel-lemon-deep: oklch(0.7 0.09 95);
+  --pastel-mint: oklch(0.93 0.04 165);
+  --pastel-mint-deep: oklch(0.62 0.07 165);
+
+  --background: oklch(0.975 0.014 70);
   --foreground: var(--ink);
   --card: oklch(0.995 0.003 90);
   --card-foreground: var(--ink);
@@ -134,6 +160,14 @@
     oklch(0.985 0.006 90 / 0.9) 42%,
     oklch(0.985 0.006 90 / 0.4) 68%,
     oklch(0.985 0.006 90 / 0.05) 100%
+  );
+  --gradient-pastel: linear-gradient(
+    120deg,
+    var(--pastel-pink) 0%,
+    var(--pastel-lemon) 25%,
+    var(--pastel-mint) 50%,
+    var(--pastel-blue) 75%,
+    var(--pastel-lavender) 100%
   );
 }
 
