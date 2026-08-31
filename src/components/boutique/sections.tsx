@@ -352,7 +352,7 @@ export function Newsletter() {
           limited pieces — twice a season, never more.
         </p>
         <form
-          className="mt-10 flex flex-col gap-3 sm:flex-row"
+          className="mx-auto mt-10 flex max-w-md flex-col gap-3 sm:flex-row"
           onSubmit={(e) => e.preventDefault()}
         >
           <label htmlFor="newsletter-email" className="sr-only">
@@ -389,7 +389,7 @@ const FOOTER = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/70 bg-cream/70">
+    <footer className="border-t border-border/70 bg-pastel-mint/30">
       <div className="mx-auto max-w-[88rem] px-6 py-16 sm:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
