@@ -257,12 +257,12 @@ export function Story() {
           </p>
           <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border/70 pt-8">
             {[
-              ["50", "Years"],
-              ["11", "Artisans"],
-              ["100%", "Natural fibres"],
-            ].map(([n, l]) => (
+              ["50", "Years", "text-pastel-pink-deep"],
+              ["11", "Artisans", "text-pastel-blue-deep"],
+              ["100%", "Natural fibres", "text-pastel-mint-deep"],
+            ].map(([n, l, c]) => (
               <div key={l}>
-                <p className="font-serif text-3xl text-foreground">{n}</p>
+                <p className={`font-serif text-3xl ${c}`}>{n}</p>
                 <p className="mt-1 text-[0.5625rem] uppercase tracking-[0.2em] text-muted-foreground">
                   {l}
                 </p>
@@ -280,15 +280,21 @@ const QUOTES = [
     quote:
       "The rare children's label that parents covet as much as their children do.",
     source: "Vogue Bambini",
+    color: "text-pastel-pink-deep",
+    wash: "bg-pastel-pink/30",
   },
   {
     quote:
       "Impeccably made, quietly beautiful — the christening gown became a family heirloom.",
     source: "Éloïse M., Paris",
+    color: "text-pastel-blue-deep",
+    wash: "bg-pastel-blue/30",
   },
   {
     quote: "A masterclass in restraint. Nothing shouts, everything lasts.",
     source: "Milk Magazine",
+    color: "text-pastel-lavender-deep",
+    wash: "bg-pastel-lavender/30",
   },
 ];
 
