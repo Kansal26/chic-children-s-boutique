@@ -302,16 +302,16 @@ const PRESS = ["VOGUE BAMBINI", "MILK", "T MAGAZINE", "KINFOLK", "MONOCLE"];
 
 export function Testimonials() {
   return (
-    <section className="border-y border-border/70 bg-cream/45 py-24 sm:py-32">
+    <section className="border-y border-border/70 bg-pastel-peach/25 py-24 sm:py-32">
       <div className="mx-auto max-w-[88rem] px-6 sm:px-8">
         <SectionHeading eyebrow="Well Received" title="In good company" />
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
           {QUOTES.map((q) => (
             <figure
               key={q.source}
-              className="hover-lift rounded-[12px] border border-border/70 bg-background p-8 shadow-[var(--shadow-soft)]"
+              className={`hover-lift rounded-[12px] border border-border/70 p-8 shadow-[var(--shadow-soft)] ${q.wash}`}
             >
-              <span className="font-serif text-4xl leading-none text-gold">“</span>
+              <span className={`font-serif text-4xl leading-none ${q.color}`}>“</span>
               <blockquote className="mt-3 font-serif text-lg leading-relaxed text-foreground">
                 {q.quote}
               </blockquote>
