@@ -339,7 +339,10 @@ export function Testimonials() {
 export function Newsletter() {
   return (
     <section className="mx-auto max-w-[88rem] px-6 py-24 sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-xl text-center">
+      <div
+        className="mx-auto max-w-3xl rounded-[24px] border border-border/60 px-6 py-16 text-center shadow-[var(--shadow-soft)] sm:px-16"
+        style={{ backgroundImage: "var(--gradient-pastel)" }}
+      >
         <p className="eyebrow">The List</p>
         <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-foreground sm:text-[2.75rem]">
           Join for early access
