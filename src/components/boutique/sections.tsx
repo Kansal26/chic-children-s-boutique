@@ -162,15 +162,15 @@ export function Categories() {
 }
 
 const PRODUCTS = [
-  { name: "Amélie Hand-Knit Cardigan", price: "€148", tag: "New", img: p1 },
-  { name: "Colette Pleated Silk Dress", price: "€216", tag: "Limited Edition", img: p2 },
-  { name: "Margaux Leather Mary Janes", price: "€132", tag: null, img: p3 },
-  { name: "Henri Washed Linen Shirt", price: "€96", tag: "New", img: p4 },
+  { name: "Amélie Hand-Knit Cardigan", price: "€148", tag: "New", tagStyle: "border-pastel-pink-deep/40 bg-pastel-pink/85 text-pastel-pink-deep", img: p1 },
+  { name: "Colette Pleated Silk Dress", price: "€216", tag: "Limited Edition", tagStyle: "border-pastel-lavender-deep/40 bg-pastel-lavender/85 text-pastel-lavender-deep", img: p2 },
+  { name: "Margaux Leather Mary Janes", price: "€132", tag: null, tagStyle: "", img: p3 },
+  { name: "Henri Washed Linen Shirt", price: "€96", tag: "New", tagStyle: "border-pastel-blue-deep/40 bg-pastel-blue/85 text-pastel-blue-deep", img: p4 },
 ];
 
 export function Arrivals() {
   return (
-    <section id="arrivals" className="bg-cream/45 py-24 sm:py-32">
+    <section id="arrivals" className="bg-pastel-blue/25 py-24 sm:py-32">
       <div className="mx-auto max-w-[88rem] px-6 sm:px-8">
         <SectionHeading
           eyebrow="Just Arrived"
@@ -190,7 +190,7 @@ export function Arrivals() {
                   className="aspect-[4/5] w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.07]"
                 />
                 {p.tag ? (
-                  <span className="absolute left-4 top-4 rounded-[6px] border border-gold/50 bg-background/85 px-2.5 py-1 text-[0.5625rem] uppercase tracking-[0.22em] text-gold backdrop-blur-sm">
+                  <span className={`absolute left-4 top-4 rounded-[6px] border px-2.5 py-1 text-[0.5625rem] uppercase tracking-[0.22em] backdrop-blur-sm ${p.tagStyle}`}>
                     {p.tag}
                   </span>
                 ) : null}
