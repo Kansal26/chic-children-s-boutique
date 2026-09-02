@@ -1,5 +1,7 @@
 import { ArrowRight, Leaf, Scissors, Sparkles, Truck } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { LuxeButton } from "./Button";
+import { CATEGORIES, NEW_ARRIVALS, formatPrice } from "@/data/catalog";
 
 import hero from "@/assets/hero.jpg";
 import craft from "@/assets/craft.jpg";
@@ -78,7 +80,7 @@ export function Hero() {
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <LuxeButton size="lg" asChild>
-              <a href="#arrivals">Shop the Collection</a>
+              <Link to="/shop">Shop the Collection</Link>
             </LuxeButton>
             <LuxeButton variant="ghost" size="lg" asChild>
               <a href="#story">
@@ -116,15 +118,6 @@ export function ServiceStrip() {
   );
 }
 
-const CATEGORIES = [
-  { name: "Newborn", note: "0 – 12 m", img: cNewborn, tint: "bg-pastel-pink", ring: "group-hover:ring-pastel-pink-deep", text: "group-hover:text-pastel-pink-deep" },
-  { name: "Girls", note: "2 – 12 y", img: cGirls, tint: "bg-pastel-lavender", ring: "group-hover:ring-pastel-lavender-deep", text: "group-hover:text-pastel-lavender-deep" },
-  { name: "Boys", note: "2 – 12 y", img: cBoys, tint: "bg-pastel-blue", ring: "group-hover:ring-pastel-blue-deep", text: "group-hover:text-pastel-blue-deep" },
-  { name: "Accessories", note: "Bonnets & bows", img: cAcc, tint: "bg-pastel-peach", ring: "group-hover:ring-pastel-peach-deep", text: "group-hover:text-pastel-peach-deep" },
-  { name: "Shoes", note: "Soft leather", img: cShoes, tint: "bg-pastel-lemon", ring: "group-hover:ring-pastel-lemon-deep", text: "group-hover:text-pastel-lemon-deep" },
-  { name: "Gifting", note: "Curated boxes", img: cGift, tint: "bg-pastel-mint", ring: "group-hover:ring-pastel-mint-deep", text: "group-hover:text-pastel-mint-deep" },
-];
-
 export function Categories() {
   return (
     <section id="collections" className="mx-auto max-w-[88rem] px-6 py-24 sm:px-8 sm:py-32">
@@ -135,7 +128,12 @@ export function Categories() {
       />
       <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
         {CATEGORIES.map((c) => (
-          <a key={c.name} href="#arrivals" className="group text-center">
+          <Link
+            key={c.slug}
+            to="/shop"
+            search={{ category: c.slug }}
+            className="group text-center"
+          >
             <div className={`rounded-full p-2 transition-colors duration-500 ${c.tint}`}>
               <div className={`relative mx-auto aspect-square w-full overflow-hidden rounded-full ring-1 ring-border transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:ring-2 ${c.ring}`}>
                 <img
@@ -154,19 +152,12 @@ export function Categories() {
             <p className="mt-0.5 text-[0.5625rem] uppercase tracking-[0.24em] text-muted-foreground">
               {c.note}
             </p>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
   );
 }
-
-const PRODUCTS = [
-  { name: "Amélie Hand-Knit Cardigan", price: "€148", tag: "New", tagStyle: "border-pastel-pink-deep/40 bg-pastel-pink/85 text-pastel-pink-deep", img: p1 },
-  { name: "Colette Pleated Silk Dress", price: "€216", tag: "Limited Edition", tagStyle: "border-pastel-lavender-deep/40 bg-pastel-lavender/85 text-pastel-lavender-deep", img: p2 },
-  { name: "Margaux Leather Mary Janes", price: "€132", tag: null, tagStyle: "", img: p3 },
-  { name: "Henri Washed Linen Shirt", price: "€96", tag: "New", tagStyle: "border-pastel-blue-deep/40 bg-pastel-blue/85 text-pastel-blue-deep", img: p4 },
-];
 
 export function Arrivals() {
   return (
@@ -178,8 +169,8 @@ export function Arrivals() {
           intro="Small-run pieces released in limited quantity, restocked rarely."
         />
         <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4 lg:gap-x-8">
-          {PRODUCTS.map((p) => (
-            <article key={p.name} className="group">
+          {NEW_ARRIVALS.slice(0, 4).map((p) => (
+            <article key={p.id} className="group">
               <div className="relative overflow-hidden rounded-[12px] bg-background shadow-[var(--shadow-soft)] transition-shadow duration-500 group-hover:shadow-[var(--shadow-lift)]">
                 <img
                   src={p.img}
@@ -205,7 +196,7 @@ export function Arrivals() {
                   {p.name}
                 </h3>
                 <p className="shrink-0 text-xs tracking-[0.12em] text-muted-foreground">
-                  {p.price}
+                  {formatPrice(p.price)}
                 </p>
               </div>
             </article>
@@ -213,7 +204,7 @@ export function Arrivals() {
         </div>
         <div className="mt-16 text-center">
           <LuxeButton asChild>
-            <a href="#collections">View All New Arrivals</a>
+            <Link to="/new-arrivals">View All New Arrivals</Link>
           </LuxeButton>
         </div>
       </div>

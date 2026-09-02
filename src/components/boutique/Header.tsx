@@ -1,8 +1,18 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const NAV = ["Shop", "Collections", "New Arrivals", "Gifting", "About"];
+const linkClass =
+  "relative text-[0.6875rem] uppercase tracking-[0.22em] text-foreground/70 transition-colors duration-300 hover:text-foreground after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-500 hover:after:w-full";
+
+const NAV = [
+  { label: "Shop", to: "/shop", search: {} },
+  { label: "Collections", to: "/collections", search: {} },
+  { label: "New Arrivals", to: "/new-arrivals", search: {} },
+  { label: "Gifting", to: "/shop", search: { category: "gifting" } },
+  { label: "About", to: "/", search: {} },
+] as const;
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -40,36 +50,39 @@ export function Header() {
           </button>
           <nav className="hidden items-center gap-8 lg:flex">
             {NAV.slice(0, 3).map((item) => (
-              <a
-                key={item}
-                href="#collections"
-                className="relative text-[0.6875rem] uppercase tracking-[0.22em] text-foreground/70 transition-colors duration-300 hover:text-foreground after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-500 hover:after:w-full"
+              <Link
+                key={item.label}
+                to={item.to}
+                search={item.search}
+                className={linkClass}
+                activeProps={{ className: "text-foreground" }}
               >
-                {item}
-              </a>
+                {item.label}
+              </Link>
             ))}
           </nav>
         </div>
 
-        <a href="#top" className="min-w-0 text-center">
+        <Link to="/" className="min-w-0 text-center">
           <span className="block truncate font-serif text-base tracking-[0.1em] text-foreground sm:text-2xl sm:tracking-[0.16em]">
             MAISON PETIT
           </span>
           <span className="mt-0.5 hidden text-[0.5rem] uppercase tracking-[0.44em] text-muted-foreground sm:block">
             Paris · Est. 1974
           </span>
-        </a>
+        </Link>
 
         <div className="flex items-center justify-end gap-1 sm:gap-3">
           <nav className="mr-2 hidden items-center gap-8 lg:flex">
             {NAV.slice(3).map((item) => (
-              <a
-                key={item}
-                href="#story"
-                className="relative text-[0.6875rem] uppercase tracking-[0.22em] text-foreground/70 transition-colors duration-300 hover:text-foreground after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-500 hover:after:w-full"
+              <Link
+                key={item.label}
+                to={item.to}
+                search={item.search}
+                className={linkClass}
               >
-                {item}
-              </a>
+                {item.label}
+              </Link>
             ))}
           </nav>
           {[
@@ -106,14 +119,15 @@ export function Header() {
       >
         <nav className="flex flex-col px-6 py-3">
           {NAV.map((item) => (
-            <a
-              key={item}
-              href="#collections"
+            <Link
+              key={item.label}
+              to={item.to}
+              search={item.search}
               onClick={() => setOpen(false)}
               className="border-b border-border/50 py-3.5 text-[0.6875rem] uppercase tracking-[0.24em] text-foreground/75 last:border-0"
             >
-              {item}
-            </a>
+              {item.label}
+            </Link>
           ))}
         </nav>
       </div>
