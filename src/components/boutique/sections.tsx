@@ -5,16 +5,6 @@ import { CATEGORIES, NEW_ARRIVALS, formatPrice } from "@/data/catalog";
 
 import hero from "@/assets/hero.jpg";
 import craft from "@/assets/craft.jpg";
-import p1 from "@/assets/p1.jpg";
-import p2 from "@/assets/p2.jpg";
-import p3 from "@/assets/p3.jpg";
-import p4 from "@/assets/p4.jpg";
-import cNewborn from "@/assets/c-newborn.jpg";
-import cGirls from "@/assets/c-girls.jpg";
-import cBoys from "@/assets/c-boys.jpg";
-import cAcc from "@/assets/c-acc.jpg";
-import cShoes from "@/assets/c-shoes.jpg";
-import cGift from "@/assets/c-gift.jpg";
 
 export function FoilRule({ className = "" }: { className?: string }) {
   return <div className={`foil-rule ${className}`} aria-hidden="true" />;
