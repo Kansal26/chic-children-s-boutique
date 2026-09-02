@@ -9,12 +9,13 @@ const title = "Shop All — Maison Petit";
 const description =
   "Browse the complete Maison Petit wardrobe: newborn layettes, girls' and boys' pieces, soft leather shoes, accessories and curated gift boxes.";
 
-type Search = { category?: string; sort?: string };
+type Search = { category?: string | undefined; sort?: string | undefined };
 
 export const Route = createFileRoute("/shop")({
   validateSearch: (search: Record<string, unknown>): Search => ({
-    category: typeof search.category === "string" ? search.category : undefined,
-    sort: typeof search.sort === "string" ? search.sort : undefined,
+    category:
+      typeof search["category"] === "string" ? search["category"] : undefined,
+    sort: typeof search["sort"] === "string" ? search["sort"] : undefined,
   }),
   head: () => ({
     meta: [
@@ -69,7 +70,7 @@ function ShopPage() {
             <div className="-mx-1 flex flex-wrap gap-2">
               <Link
                 to="/shop"
-                search={(prev) => ({ ...prev, category: undefined })}
+                search={(prev) => ({ sort: prev.sort })}
                 className={cn(
                   "rounded-full border px-4 py-2 text-[0.625rem] uppercase tracking-[0.2em] transition-all duration-300",
                   !active
