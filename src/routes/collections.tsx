@@ -7,7 +7,7 @@ import { CATEGORIES, PRODUCTS, formatPrice } from "@/data/catalog";
 
 const title = "Collections — Maison Petit";
 const description =
-  "Six considered edits: newborn, girls, boys, accessories, shoes and gifting — each made in small runs in our Lisbon atelier.";
+  "Five considered edits: newborn, girls, boys, accessories and shoes — each made in small runs in our Lisbon atelier.";
 
 export const Route = createFileRoute("/collections")({
   head: () => ({
@@ -36,7 +36,7 @@ function CollectionsPage() {
 
         <section className="mx-auto max-w-[88rem] space-y-6 px-6 py-16 sm:px-8 sm:py-24">
           {CATEGORIES.map((c, i) => {
-            const items = PRODUCTS.filter((p) => p.category === c.slug);
+            const items = PRODUCTS.filter((p) => p.categories?.includes(c.slug));
             const from = Math.min(...items.map((p) => p.price));
             return (
               <Link
@@ -57,9 +57,7 @@ function CollectionsPage() {
                     className="h-full w-full object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.06]"
                   />
                 </div>
-                <div
-                  className={`flex flex-col justify-center gap-5 p-8 sm:p-14 ${c.tint}/40`}
-                >
+                <div className={`flex flex-col justify-center gap-5 p-8 sm:p-14 ${c.tint}/40`}>
                   <p className="eyebrow">{c.note}</p>
                   <h2 className="font-serif text-[2rem] leading-tight text-foreground sm:text-[2.5rem]">
                     {c.name}

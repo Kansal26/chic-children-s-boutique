@@ -13,7 +13,7 @@ import {
 
 const title = "Maison Petit — Luxury Children's Clothing & Accessories";
 const description =
-  "Heirloom children's clothing in organic cotton, French linen and hand-finished knit. Shop newborn, girls, boys, shoes, accessories and curated gifting.";
+  "Heirloom children's clothing in organic cotton, French linen and hand-finished knit. Shop newborn, girls, boys, shoes, and accessories.";
 
 export const Route = createFileRoute("/")({
   head: () => ({

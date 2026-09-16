@@ -11,8 +11,7 @@ export const luxeButtonVariants = cva(
         outline:
           "border border-foreground/25 text-foreground hover:border-gold hover:bg-gold/10 hover:tracking-[0.28em]",
         ghost: "text-foreground/70 hover:text-foreground hover:bg-cream",
-        solid:
-          "bg-primary text-primary-foreground hover:bg-primary/90 hover:tracking-[0.28em]",
+        solid: "bg-primary text-primary-foreground hover:bg-primary/90 hover:tracking-[0.28em]",
         onImage:
           "border border-primary-foreground/60 bg-primary/10 text-primary-foreground backdrop-blur-sm hover:bg-primary-foreground hover:text-primary hover:tracking-[0.28em]",
       },
@@ -27,20 +26,11 @@ export const luxeButtonVariants = cva(
 );
 
 export interface LuxeButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof luxeButtonVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof luxeButtonVariants> {
   asChild?: boolean;
 }
 
-export function LuxeButton({
-  className,
-  variant,
-  size,
-  asChild,
-  ...props
-}: LuxeButtonProps) {
+export function LuxeButton({ className, variant, size, asChild, ...props }: LuxeButtonProps) {
   const Comp = asChild ? Slot : "button";
-  return (
-    <Comp className={cn(luxeButtonVariants({ variant, size }), className)} {...props} />
-  );
+  return <Comp className={cn(luxeButtonVariants({ variant, size }), className)} {...props} />;
 }
