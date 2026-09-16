@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { Product } from "@/data/catalog";
 
 type CartItem = {
@@ -14,6 +14,8 @@ export type WishlistItem = {
   color?: string;
 };
 
+import { Coupon } from "./db";
+
 type StoreContextType = {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
@@ -24,9 +26,13 @@ type StoreContextType = {
     color: string | undefined,
     quantity: number,
   ) => void;
+  clearCart: () => void;
   wishlist: WishlistItem[];
   toggleWishlist: (productId: string, size?: string, color?: string) => void;
   isInWishlist: (productId: string) => boolean;
+  appliedCoupon: Coupon | null;
+  applyCoupon: (coupon: Coupon) => void;
+  removeCoupon: () => void;
 };
 
 const StoreContext = createContext<StoreContextType | null>(null);
@@ -34,6 +40,46 @@ const StoreContext = createContext<StoreContextType | null>(null);
 export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
+  const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem("chic_cart");
+      if (savedCart) setCart(JSON.parse(savedCart));
+      
+      const savedWishlist = localStorage.getItem("chic_wishlist");
+      if (savedWishlist) setWishlist(JSON.parse(savedWishlist));
+
+      const savedCoupon = localStorage.getItem("chic_coupon");
+      if (savedCoupon) setAppliedCoupon(JSON.parse(savedCoupon));
+    } catch (e) {
+      console.error("Failed to load store from local storage", e);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    localStorage.setItem("chic_cart", JSON.stringify(cart));
+  }, [cart, isLoaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    localStorage.setItem("chic_wishlist", JSON.stringify(wishlist));
+  }, [wishlist, isLoaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (appliedCoupon) {
+      localStorage.setItem("chic_coupon", JSON.stringify(appliedCoupon));
+    } else {
+      localStorage.removeItem("chic_coupon");
+    }
+  }, [appliedCoupon, isLoaded]);
+
+  const applyCoupon = (coupon: Coupon) => setAppliedCoupon(coupon);
+  const removeCoupon = () => setAppliedCoupon(null);
 
   const addToCart = (item: CartItem) => {
     setCart((prev) => {
@@ -83,6 +129,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   const isInWishlist = (productId: string) => wishlist.some((item) => item.productId === productId);
 
+  const clearCart = () => setCart([]);
+
   return (
     <StoreContext.Provider
       value={{
@@ -90,9 +138,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         addToCart,
         removeFromCart,
         updateCartQuantity,
+        clearCart,
         wishlist,
         toggleWishlist,
         isInWishlist,
+        appliedCoupon,
+        applyCoupon,
+        removeCoupon,
       }}
     >
       {children}

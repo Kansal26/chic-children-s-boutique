@@ -10,10 +10,23 @@ export type Collection = {
   status?: "published" | "archived";
 };
 
+export type Coupon = {
+  id: string;
+  code: string;
+  description?: string;
+  discount_type: "percentage" | "fixed_amount" | "free_gift";
+  discount_value: number;
+  min_order_value?: number;
+  min_items_count?: number;
+  free_gift_product_id?: string;
+  status: "active" | "inactive";
+};
+
 // Internal memory store
 let products: Product[] = [];
 let categories: typeof CATEGORIES = [];
 let collections: Collection[] = [];
+let coupons: Coupon[] = [];
 
 // Fetch initial data
 async function initDb() {
@@ -22,13 +35,15 @@ async function initDb() {
     { data: cats },
     { data: cols },
     { data: prodCats },
-    { data: vars }
+    { data: vars },
+    { data: coups }
   ] = await Promise.all([
     supabase.from('products').select('*'),
     supabase.from('categories').select('*'),
     supabase.from('collections').select('*'),
     supabase.from('product_categories').select('*'),
-    supabase.from('product_variants').select('*')
+    supabase.from('product_variants').select('*'),
+    supabase.from('coupons').select('*')
   ]);
 
   if (cats) {
@@ -47,6 +62,7 @@ async function initDb() {
   }
   
   if (cols) collections = cols;
+  if (coups) coupons = coups;
 
   if (prods) {
     products = prods.map(p => ({
@@ -268,7 +284,32 @@ export const db = {
     notify();
     await supabase.from('collections').delete().eq('id', id);
   },
-  getCollection: (id: string) => collections.find((c) => c.id === id)
+  getCollection: (id: string) => collections.find((c) => c.id === id),
+
+  // Coupons
+  getCoupons: () => coupons,
+  createCoupon: async (data: Omit<Coupon, 'id'>) => {
+    const tempId = crypto.randomUUID();
+    const newCoupon = { ...data, id: tempId };
+    coupons = [...coupons, newCoupon];
+    notify();
+    
+    const { data: insertedData, error } = await supabase.from('coupons').insert(data).select().single();
+    if (insertedData) {
+      coupons = coupons.map(c => c.id === tempId ? insertedData : c);
+      notify();
+    }
+  },
+  updateCoupon: async (id: string, updates: Partial<Coupon>) => {
+    coupons = coupons.map((c) => (c.id === id ? { ...c, ...updates } : c));
+    notify();
+    await supabase.from('coupons').update(updates).eq('id', id);
+  },
+  deleteCoupon: async (id: string) => {
+    coupons = coupons.filter((c) => c.id !== id);
+    notify();
+    await supabase.from('coupons').delete().eq('id', id);
+  },
 };
 
 export function useProducts() {
@@ -289,4 +330,8 @@ export function useCollections() {
 
 export function useCollection(id: string) {
   return useSyncExternalStore(db.subscribe, () => db.getCollection(id));
+}
+
+export function useCoupons() {
+  return useSyncExternalStore(db.subscribe, db.getCoupons);
 }

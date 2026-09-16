@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as CartRouteImport } from './routes/cart'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
 import { Route as ShopRouteImport } from './routes/shop'
@@ -23,6 +25,8 @@ import { Route as AdminCategoriesIndexRouteImport } from './routes/admin.categor
 import { Route as AdminCategoriesCategorySlugRouteImport } from './routes/admin.categories.$categorySlug'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
 import { Route as AdminCollectionsCollectionIdRouteImport } from './routes/admin.collections.$collectionId'
+import { Route as AdminCouponsIndexRouteImport } from './routes/admin.coupons.index'
+import { Route as AdminCouponsNewRouteImport } from './routes/admin.coupons.new'
 import { Route as AdminProductsIndexRouteImport } from './routes/admin.products.index'
 import { Route as AdminProductsProductIdRouteImport } from './routes/admin.products.$productId'
 import { Route as AdminProductsNewRouteImport } from './routes/admin.products.new'
@@ -35,6 +39,16 @@ const IndexRoute = IndexRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionsRoute = CollectionsRouteImport.update({
@@ -99,6 +113,16 @@ const AdminCollectionsCollectionIdRoute =
     path: '/collections/$collectionId',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminCouponsIndexRoute = AdminCouponsIndexRouteImport.update({
+  id: '/coupons/',
+  path: '/coupons/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCouponsNewRoute = AdminCouponsNewRouteImport.update({
+  id: '/coupons/new',
+  path: '/coupons/new',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminProductsIndexRoute = AdminProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -118,6 +142,8 @@ const AdminProductsNewRoute = AdminProductsNewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/collections': typeof CollectionsRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/shop': typeof ShopRoute
@@ -128,14 +154,18 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/admin/categories/$categorySlug': typeof AdminCategoriesCategorySlugRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/coupons/new': typeof AdminCouponsNewRoute
   '/admin/products/$productId': typeof AdminProductsProductIdRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/categories/': typeof AdminCategoriesIndexRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
+  '/admin/coupons/': typeof AdminCouponsIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/collections': typeof CollectionsRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/shop': typeof ShopRoute
@@ -146,16 +176,20 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/admin/categories/$categorySlug': typeof AdminCategoriesCategorySlugRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/coupons/new': typeof AdminCouponsNewRoute
   '/admin/products/$productId': typeof AdminProductsProductIdRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/collections': typeof AdminCollectionsIndexRoute
+  '/admin/coupons': typeof AdminCouponsIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/collections': typeof CollectionsRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/shop': typeof ShopRoute
@@ -166,10 +200,12 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/admin/categories/$categorySlug': typeof AdminCategoriesCategorySlugRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/coupons/new': typeof AdminCouponsNewRoute
   '/admin/products/$productId': typeof AdminProductsProductIdRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/categories/': typeof AdminCategoriesIndexRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
+  '/admin/coupons/': typeof AdminCouponsIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
 }
 export interface FileRouteTypes {
@@ -177,6 +213,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/cart'
+    | '/checkout'
     | '/collections'
     | '/new-arrivals'
     | '/shop'
@@ -187,14 +225,18 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/admin/categories/$categorySlug'
     | '/admin/collections/$collectionId'
+    | '/admin/coupons/new'
     | '/admin/products/$productId'
     | '/admin/products/new'
     | '/admin/categories/'
     | '/admin/collections/'
+    | '/admin/coupons/'
     | '/admin/products/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cart'
+    | '/checkout'
     | '/collections'
     | '/new-arrivals'
     | '/shop'
@@ -205,15 +247,19 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/categories/$categorySlug'
     | '/admin/collections/$collectionId'
+    | '/admin/coupons/new'
     | '/admin/products/$productId'
     | '/admin/products/new'
     | '/admin/categories'
     | '/admin/collections'
+    | '/admin/coupons'
     | '/admin/products'
   id:
     | '__root__'
     | '/'
     | '/admin'
+    | '/cart'
+    | '/checkout'
     | '/collections'
     | '/new-arrivals'
     | '/shop'
@@ -224,16 +270,20 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/admin/categories/$categorySlug'
     | '/admin/collections/$collectionId'
+    | '/admin/coupons/new'
     | '/admin/products/$productId'
     | '/admin/products/new'
     | '/admin/categories/'
     | '/admin/collections/'
+    | '/admin/coupons/'
     | '/admin/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
   CollectionsRoute: typeof CollectionsRoute
   NewArrivalsRoute: typeof NewArrivalsRoute
   ShopRoute: typeof ShopRoute
@@ -255,6 +305,20 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/collections': {
@@ -341,6 +405,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCollectionsCollectionIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/coupons/': {
+      id: '/admin/coupons/'
+      path: '/coupons'
+      fullPath: '/admin/coupons/'
+      preLoaderRoute: typeof AdminCouponsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/coupons/new': {
+      id: '/admin/coupons/new'
+      path: '/coupons/new'
+      fullPath: '/admin/coupons/new'
+      preLoaderRoute: typeof AdminCouponsNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/products/': {
       id: '/admin/products/'
       path: '/products'
@@ -371,10 +449,12 @@ interface AdminRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCategoriesCategorySlugRoute: typeof AdminCategoriesCategorySlugRoute
   AdminCollectionsCollectionIdRoute: typeof AdminCollectionsCollectionIdRoute
+  AdminCouponsNewRoute: typeof AdminCouponsNewRoute
   AdminProductsProductIdRoute: typeof AdminProductsProductIdRoute
   AdminProductsNewRoute: typeof AdminProductsNewRoute
   AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
   AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
+  AdminCouponsIndexRoute: typeof AdminCouponsIndexRoute
   AdminProductsIndexRoute: typeof AdminProductsIndexRoute
 }
 
@@ -384,10 +464,12 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminCategoriesCategorySlugRoute: AdminCategoriesCategorySlugRoute,
   AdminCollectionsCollectionIdRoute: AdminCollectionsCollectionIdRoute,
+  AdminCouponsNewRoute: AdminCouponsNewRoute,
   AdminProductsProductIdRoute: AdminProductsProductIdRoute,
   AdminProductsNewRoute: AdminProductsNewRoute,
   AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
   AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
+  AdminCouponsIndexRoute: AdminCouponsIndexRoute,
   AdminProductsIndexRoute: AdminProductsIndexRoute,
 }
 
@@ -396,6 +478,8 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
   CollectionsRoute: CollectionsRoute,
   NewArrivalsRoute: NewArrivalsRoute,
   ShopRoute: ShopRoute,

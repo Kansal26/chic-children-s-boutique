@@ -5,7 +5,8 @@ import {
   FolderTree, 
   Layers, 
   LogOut,
-  PackageSearch
+  PackageSearch,
+  Tag
 } from "lucide-react";
 
 // Mock auth state (in memory for prototype)
@@ -33,6 +34,7 @@ const NAV_ITEMS = [
   { icon: PackageSearch, label: "Inventory", to: "/admin/inventory" },
   { icon: FolderTree, label: "Categories", to: "/admin/categories" },
   { icon: Layers, label: "Collections", to: "/admin/collections" },
+  { icon: Tag, label: "Coupons", to: "/admin/coupons" },
 ];
 
 function AdminLayout() {

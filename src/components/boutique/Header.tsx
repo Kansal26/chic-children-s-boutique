@@ -378,15 +378,19 @@ export function Header() {
                     Shipping and taxes calculated at checkout
                   </p>
 
-                  <LuxeButton className="w-full bg-pastel-pink/20 hover:bg-pastel-pink/30 text-foreground border-foreground/20">
-                    CHECKOUT
-                  </LuxeButton>
+                  <SheetClose asChild>
+                    <Link to="/checkout" className="block w-full">
+                      <LuxeButton className="w-full bg-pastel-pink/20 hover:bg-pastel-pink/30 text-foreground border-foreground/20">
+                        CHECKOUT
+                      </LuxeButton>
+                    </Link>
+                  </SheetClose>
 
                   <div className="mt-4 text-center">
                     <SheetClose asChild>
-                      <button className="text-[0.625rem] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4">
+                      <Link to="/cart" className="text-[0.625rem] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4">
                         View Full Bag
-                      </button>
+                      </Link>
                     </SheetClose>
                   </div>
                 </div>
