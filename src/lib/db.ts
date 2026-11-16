@@ -22,11 +22,19 @@ export type Coupon = {
   status: "active" | "inactive";
 };
 
+export type Announcement = {
+  id: string;
+  message: string;
+  status: "active" | "inactive";
+  created_at: string;
+};
+
 // Internal memory store
 let products: Product[] = [];
 let categories: typeof CATEGORIES = [];
 let collections: Collection[] = [];
 let coupons: Coupon[] = [];
+let announcements: Announcement[] = [];
 
 // Fetch initial data
 async function initDb() {
@@ -36,14 +44,16 @@ async function initDb() {
     { data: cols },
     { data: prodCats },
     { data: vars },
-    { data: coups }
+    { data: coups },
+    { data: anns }
   ] = await Promise.all([
     supabase.from('products').select('*'),
     supabase.from('categories').select('*'),
     supabase.from('collections').select('*'),
     supabase.from('product_categories').select('*'),
     supabase.from('product_variants').select('*'),
-    supabase.from('coupons').select('*')
+    supabase.from('coupons').select('*'),
+    supabase.from('announcements').select('*').order('created_at', { ascending: false })
   ]);
 
   if (cats) {
@@ -63,6 +73,7 @@ async function initDb() {
   
   if (cols) collections = cols;
   if (coups) coupons = coups;
+  if (anns) announcements = anns;
 
   if (prods) {
     products = prods.map(p => ({
@@ -310,28 +321,57 @@ export const db = {
     notify();
     await supabase.from('coupons').delete().eq('id', id);
   },
+
+  // Announcements
+  getAnnouncements: () => announcements,
+  createAnnouncement: async (data: Omit<Announcement, 'id' | 'created_at'>) => {
+    const tempId = crypto.randomUUID();
+    const newAnnouncement: Announcement = { ...data, id: tempId, created_at: new Date().toISOString() };
+    announcements = [newAnnouncement, ...announcements];
+    notify();
+    
+    const { data: insertedData } = await supabase.from('announcements').insert(data).select().single();
+    if (insertedData) {
+      announcements = announcements.map(a => a.id === tempId ? insertedData : a);
+      notify();
+    }
+  },
+  updateAnnouncement: async (id: string, updates: Partial<Announcement>) => {
+    announcements = announcements.map((a) => (a.id === id ? { ...a, ...updates } : a));
+    notify();
+    await supabase.from('announcements').update(updates).eq('id', id);
+  },
+  deleteAnnouncement: async (id: string) => {
+    announcements = announcements.filter((a) => a.id !== id);
+    notify();
+    await supabase.from('announcements').delete().eq('id', id);
+  },
 };
 
 export function useProducts() {
-  return useSyncExternalStore(db.subscribe, db.getProducts);
+  return useSyncExternalStore(db.subscribe, db.getProducts, () => []);
 }
 
 export function useCategories() {
-  return useSyncExternalStore(db.subscribe, db.getCategories);
+  return useSyncExternalStore(db.subscribe, db.getCategories, () => []);
 }
 
 export function useCategory(slug: string) {
-  return useSyncExternalStore(db.subscribe, () => db.getCategory(slug));
+  return useSyncExternalStore(db.subscribe, () => db.getCategory(slug), () => undefined);
 }
 
 export function useCollections() {
-  return useSyncExternalStore(db.subscribe, db.getCollections);
+  return useSyncExternalStore(db.subscribe, db.getCollections, () => []);
 }
 
 export function useCollection(id: string) {
-  return useSyncExternalStore(db.subscribe, () => db.getCollection(id));
+  return useSyncExternalStore(db.subscribe, () => db.getCollection(id), () => undefined);
 }
 
 export function useCoupons() {
-  return useSyncExternalStore(db.subscribe, db.getCoupons);
+  return useSyncExternalStore(db.subscribe, db.getCoupons, () => []);
+}
+
+export function useAnnouncements() {
+  return useSyncExternalStore(db.subscribe, db.getAnnouncements, () => []);
 }

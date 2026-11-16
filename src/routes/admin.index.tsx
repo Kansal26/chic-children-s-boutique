@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useProducts, useCategories, useCollections } from "@/lib/db";
+import { useOrders } from "@/lib/orders";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Package, AlertCircle, Sparkles, FileText, Plus, FolderTree, Layers } from "lucide-react";
+import { Package, AlertCircle, Sparkles, FileText, Plus, FolderTree, Layers, ShoppingBag, Clock, Printer } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
@@ -10,11 +11,15 @@ export const Route = createFileRoute("/admin/")({
 
 function AdminDashboard() {
   const products = useProducts();
+  const orders = useOrders();
   
   const totalProducts = products.length;
   const draftProducts = products.filter(p => p.status === "draft").length;
   const newArrivals = products.filter(p => p.featured || p.tags?.includes("New Arrival")).length;
   
+  const pendingOrders = orders.filter(o => o.status === "pending").length;
+  const dispatchedOrders = orders.filter(o => o.status === "dispatched").length;
+
   const lowStockThreshold = 5;
   const lowStockCount = products.filter(p => {
     if (!p.variants) return false;
@@ -25,8 +30,14 @@ function AdminDashboard() {
     <div className="space-y-8 font-sans">
       
       {/* Quick Actions */}
-      <div className="flex gap-4">
-        <Button asChild>
+      <div className="flex flex-wrap gap-4">
+        <Button asChild className="bg-slate-900 text-white hover:bg-slate-800">
+          <Link to="/admin/orders">
+            <ShoppingBag className="mr-2 h-4 w-4 text-amber-400" />
+            Orders & Printing ({pendingOrders} Pending)
+          </Link>
+        </Button>
+        <Button variant="outline" asChild>
           <Link to="/admin/products/new">
             <Plus className="mr-2 h-4 w-4" />
             Add New Product
@@ -48,13 +59,25 @@ function AdminDashboard() {
 
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="border-amber-200 bg-amber-50/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Products</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-amber-800">Pending Orders</CardTitle>
+            <Clock className="h-4 w-4 text-amber-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalProducts}</div>
+            <div className="text-2xl font-bold text-amber-900">{pendingOrders}</div>
+            <p className="text-xs text-amber-700 font-medium">Awaiting tax bill & shipping label</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
+            <ShoppingBag className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{orders.length}</div>
+            <p className="text-xs text-muted-foreground">{dispatchedOrders} currently in transit</p>
           </CardContent>
         </Card>
         

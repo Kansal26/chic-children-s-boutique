@@ -20,7 +20,10 @@ import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
+import { Route as AdminAnnouncementsIndexRouteImport } from './routes/admin.announcements.index'
+import { Route as AdminAnnouncementsNewRouteImport } from './routes/admin.announcements.new'
 import { Route as AdminCategoriesIndexRouteImport } from './routes/admin.categories.index'
 import { Route as AdminCategoriesCategorySlugRouteImport } from './routes/admin.categories.$categorySlug'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
@@ -86,10 +89,25 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ProductProductIdRoute = ProductProductIdRouteImport.update({
   id: '/product/$productId',
   path: '/product/$productId',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAnnouncementsIndexRoute = AdminAnnouncementsIndexRouteImport.update({
+  id: '/announcements/',
+  path: '/announcements/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnnouncementsNewRoute = AdminAnnouncementsNewRouteImport.update({
+  id: '/announcements/new',
+  path: '/announcements/new',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminCategoriesIndexRoute = AdminCategoriesIndexRouteImport.update({
   id: '/categories/',
@@ -150,13 +168,16 @@ export interface FileRoutesByFullPath {
   '/wishlist': typeof WishlistRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/announcements/new': typeof AdminAnnouncementsNewRoute
   '/admin/categories/$categorySlug': typeof AdminCategoriesCategorySlugRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/coupons/new': typeof AdminCouponsNewRoute
   '/admin/products/$productId': typeof AdminProductsProductIdRoute
   '/admin/products/new': typeof AdminProductsNewRoute
+  '/admin/announcements/': typeof AdminAnnouncementsIndexRoute
   '/admin/categories/': typeof AdminCategoriesIndexRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/coupons/': typeof AdminCouponsIndexRoute
@@ -172,13 +193,16 @@ export interface FileRoutesByTo {
   '/wishlist': typeof WishlistRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/announcements/new': typeof AdminAnnouncementsNewRoute
   '/admin/categories/$categorySlug': typeof AdminCategoriesCategorySlugRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/coupons/new': typeof AdminCouponsNewRoute
   '/admin/products/$productId': typeof AdminProductsProductIdRoute
   '/admin/products/new': typeof AdminProductsNewRoute
+  '/admin/announcements': typeof AdminAnnouncementsIndexRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/collections': typeof AdminCollectionsIndexRoute
   '/admin/coupons': typeof AdminCouponsIndexRoute
@@ -196,13 +220,16 @@ export interface FileRoutesById {
   '/wishlist': typeof WishlistRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/announcements/new': typeof AdminAnnouncementsNewRoute
   '/admin/categories/$categorySlug': typeof AdminCategoriesCategorySlugRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/coupons/new': typeof AdminCouponsNewRoute
   '/admin/products/$productId': typeof AdminProductsProductIdRoute
   '/admin/products/new': typeof AdminProductsNewRoute
+  '/admin/announcements/': typeof AdminAnnouncementsIndexRoute
   '/admin/categories/': typeof AdminCategoriesIndexRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/coupons/': typeof AdminCouponsIndexRoute
@@ -221,13 +248,16 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/inventory'
     | '/admin/login'
+    | '/admin/orders'
     | '/product/$productId'
     | '/admin/'
+    | '/admin/announcements/new'
     | '/admin/categories/$categorySlug'
     | '/admin/collections/$collectionId'
     | '/admin/coupons/new'
     | '/admin/products/$productId'
     | '/admin/products/new'
+    | '/admin/announcements/'
     | '/admin/categories/'
     | '/admin/collections/'
     | '/admin/coupons/'
@@ -243,13 +273,16 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/inventory'
     | '/admin/login'
+    | '/admin/orders'
     | '/product/$productId'
     | '/admin'
+    | '/admin/announcements/new'
     | '/admin/categories/$categorySlug'
     | '/admin/collections/$collectionId'
     | '/admin/coupons/new'
     | '/admin/products/$productId'
     | '/admin/products/new'
+    | '/admin/announcements'
     | '/admin/categories'
     | '/admin/collections'
     | '/admin/coupons'
@@ -266,13 +299,16 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/inventory'
     | '/admin/login'
+    | '/admin/orders'
     | '/product/$productId'
     | '/admin/'
+    | '/admin/announcements/new'
     | '/admin/categories/$categorySlug'
     | '/admin/collections/$collectionId'
     | '/admin/coupons/new'
     | '/admin/products/$productId'
     | '/admin/products/new'
+    | '/admin/announcements/'
     | '/admin/categories/'
     | '/admin/collections/'
     | '/admin/coupons/'
@@ -370,12 +406,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/product/$productId': {
       id: '/product/$productId'
       path: '/product/$productId'
       fullPath: '/product/$productId'
       preLoaderRoute: typeof ProductProductIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/announcements/': {
+      id: '/admin/announcements/'
+      path: '/announcements'
+      fullPath: '/admin/announcements/'
+      preLoaderRoute: typeof AdminAnnouncementsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/announcements/new': {
+      id: '/admin/announcements/new'
+      path: '/announcements/new'
+      fullPath: '/admin/announcements/new'
+      preLoaderRoute: typeof AdminAnnouncementsNewRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/admin/categories/': {
       id: '/admin/categories/'
@@ -446,12 +503,15 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminOrdersRoute: typeof AdminOrdersRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminAnnouncementsNewRoute: typeof AdminAnnouncementsNewRoute
   AdminCategoriesCategorySlugRoute: typeof AdminCategoriesCategorySlugRoute
   AdminCollectionsCollectionIdRoute: typeof AdminCollectionsCollectionIdRoute
   AdminCouponsNewRoute: typeof AdminCouponsNewRoute
   AdminProductsProductIdRoute: typeof AdminProductsProductIdRoute
   AdminProductsNewRoute: typeof AdminProductsNewRoute
+  AdminAnnouncementsIndexRoute: typeof AdminAnnouncementsIndexRoute
   AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
   AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
   AdminCouponsIndexRoute: typeof AdminCouponsIndexRoute
@@ -461,12 +521,15 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminInventoryRoute: AdminInventoryRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminOrdersRoute: AdminOrdersRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminAnnouncementsNewRoute: AdminAnnouncementsNewRoute,
   AdminCategoriesCategorySlugRoute: AdminCategoriesCategorySlugRoute,
   AdminCollectionsCollectionIdRoute: AdminCollectionsCollectionIdRoute,
   AdminCouponsNewRoute: AdminCouponsNewRoute,
   AdminProductsProductIdRoute: AdminProductsProductIdRoute,
   AdminProductsNewRoute: AdminProductsNewRoute,
+  AdminAnnouncementsIndexRoute: AdminAnnouncementsIndexRoute,
   AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
   AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
   AdminCouponsIndexRoute: AdminCouponsIndexRoute,

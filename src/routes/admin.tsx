@@ -1,13 +1,16 @@
 import { createFileRoute, Outlet, Link, redirect, useRouterState, useNavigate } from "@tanstack/react-router";
 import { 
   LayoutDashboard, 
+  ShoppingBag,
   Package, 
   FolderTree, 
   Layers, 
   LogOut,
   PackageSearch,
-  Tag
+  Tag,
+  Megaphone
 } from "lucide-react";
+import { useOrders } from "@/lib/orders";
 
 // Mock auth state (in memory for prototype)
 export const adminAuth = {
@@ -30,16 +33,20 @@ export const Route = createFileRoute("/admin")({
 
 const NAV_ITEMS = [
   { icon: LayoutDashboard, label: "Dashboard", to: "/admin" },
+  { icon: ShoppingBag, label: "Orders", to: "/admin/orders" },
   { icon: Package, label: "Products", to: "/admin/products" },
   { icon: PackageSearch, label: "Inventory", to: "/admin/inventory" },
   { icon: FolderTree, label: "Categories", to: "/admin/categories" },
   { icon: Layers, label: "Collections", to: "/admin/collections" },
   { icon: Tag, label: "Coupons", to: "/admin/coupons" },
+  { icon: Megaphone, label: "Announcements", to: "/admin/announcements" },
 ];
 
 function AdminLayout() {
   const routerState = useRouterState();
   const navigate = useNavigate();
+  const orders = useOrders();
+  const pendingCount = orders.filter((o) => o.status === "pending").length;
   
   // Don't show sidebar on login page
   if (routerState.location.pathname === "/admin/login") {
@@ -63,10 +70,17 @@ function AdminLayout() {
               key={item.to}
               to={item.to}
               activeOptions={{ exact: item.to === "/admin" }}
-              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors [&.active]:bg-slate-900 [&.active]:text-white"
+              className="flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors [&.active]:bg-slate-900 [&.active]:text-white"
             >
-              <item.icon className="h-4 w-4" />
-              {item.label}
+              <div className="flex items-center gap-3">
+                <item.icon className="h-4 w-4" />
+                <span>{item.label}</span>
+              </div>
+              {item.to === "/admin/orders" && pendingCount > 0 && (
+                <span className="px-1.5 py-0.5 text-[11px] font-bold rounded-full bg-amber-500 text-white">
+                  {pendingCount}
+                </span>
+              )}
             </Link>
           ))}
         </nav>

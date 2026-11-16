@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useStore } from "@/lib/store";
+import { useAnnouncements } from "@/lib/db";
 import { formatPrice } from "@/data/catalog";
 import { LuxeButton } from "./Button";
 import craft from "@/assets/craft.jpg";
@@ -66,24 +67,22 @@ const MEGA_EDITS = [
   { label: "French Linen Edit", to: "/collections" },
 ];
 
-const ANNOUNCEMENTS = [
-  "New Season Arrivals Now Live",
-  "Free Returns Within 30 Days",
-  "Sign Up for 10% Off Your First Order",
-  "Hand-Finished in Portugal · Organic & OEKO-TEX Certified",
-];
-
 function AnnouncementBar() {
+  const allAnnouncements = useAnnouncements();
+  const activeAnnouncements = allAnnouncements.filter(a => a.status === "active").map(a => a.message);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    if (isHovered) return;
+    if (isHovered || activeAnnouncements.length <= 1) return;
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % ANNOUNCEMENTS.length);
+      setCurrentIndex((prev) => (prev + 1) % activeAnnouncements.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [isHovered]);
+  }, [isHovered, activeAnnouncements.length]);
+
+  if (activeAnnouncements.length === 0) return null;
 
   return (
     <div
@@ -92,7 +91,7 @@ function AnnouncementBar() {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="mx-auto max-w-5xl px-8 flex justify-center items-center relative h-4">
-        {ANNOUNCEMENTS.map((msg, index) => {
+        {activeAnnouncements.map((msg, index) => {
           const isActive = index === currentIndex;
           return (
             <p

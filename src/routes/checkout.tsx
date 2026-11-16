@@ -9,6 +9,7 @@ import { CheckCircle2, ChevronLeft, X } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useCoupons, useProducts } from "@/lib/db";
+import { orderStore, Order } from "@/lib/orders";
 
 export const Route = createFileRoute("/checkout")({
   component: CheckoutPage,
@@ -80,19 +81,86 @@ function CheckoutPage() {
   const shipping = 15;
   const total = cartSubtotal - discountAmount + (cart.length > 0 ? shipping : 0);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (cart.length === 0) return;
     
     setIsSubmitting(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     
+    const email = (formData.get("email") as string) || "customer@maisonpetit.com";
+    const firstName = (formData.get("firstName") as string) || "Guest";
+    const lastName = (formData.get("lastName") as string) || "Customer";
+    const address = (formData.get("address") as string) || "12 Avenue Montaigne";
+    const apartment = (formData.get("apartment") as string) || "";
+    const postalCode = (formData.get("postalCode") as string) || "75008";
+    const city = (formData.get("city") as string) || "Paris";
+    const phone = (formData.get("phone") as string) || "+33 6 12 34 56 78";
+
+    const randomNum = Math.floor(10000 + Math.random() * 90000);
+    const newOrder: Order = {
+      id: `ord-${Date.now()}`,
+      orderNumber: `MP-${randomNum}`,
+      createdAt: new Date().toISOString(),
+      customer: {
+        name: `${firstName} ${lastName}`.trim(),
+        email,
+        phone,
+        shippingAddress: {
+          street: address,
+          apartment: apartment || undefined,
+          city,
+          state: "Île-de-France",
+          postalCode,
+          country: "France",
+        },
+        billingAddress: {
+          street: address,
+          apartment: apartment || undefined,
+          city,
+          state: "Île-de-France",
+          postalCode,
+          country: "France",
+        },
+      },
+      items: cart.map((item, idx) => ({
+        id: `item-${Date.now()}-${idx}`,
+        productId: item.product.id,
+        productName: item.product.name,
+        sku: item.product.sku || `MP-${item.product.id.slice(0, 4).toUpperCase()}`,
+        color: item.color,
+        size: item.size,
+        price: item.product.price,
+        quantity: item.quantity,
+        img: item.product.img,
+      })),
+      subtotal: cartSubtotal,
+      discount: discountAmount,
+      shipping: cart.length > 0 ? shipping : 0,
+      tax: Number(((cartSubtotal - discountAmount) * 0.12).toFixed(2)),
+      total,
+      paymentMethod: "Credit Card (Mock Checkout)",
+      paymentStatus: "paid",
+      status: "pending",
+      shippingCarrier: "DHL Express",
+      statusHistory: [
+        {
+          status: "pending",
+          timestamp: new Date().toISOString(),
+          note: "Order placed online via Maison Petit Checkout.",
+        },
+      ],
+    };
+
     setTimeout(() => {
+      orderStore.addOrder(newOrder);
       setIsSubmitting(false);
       setIsSuccess(true);
       clearCart();
       removeCoupon();
-      toast.success("Order placed successfully!");
-    }, 1500);
+      toast.success("Order placed successfully! Generated " + newOrder.orderNumber);
+    }, 1200);
   };
 
   if (isSuccess) {
@@ -124,7 +192,7 @@ function CheckoutPage() {
               <h2 className="text-lg font-serif mb-6">Contact</h2>
               <div className="space-y-4">
                 <div>
-                  <Input type="email" placeholder="Email Address *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
+                  <Input name="email" type="email" placeholder="Email Address *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
                 </div>
                 <div className="flex items-center gap-2 mt-2">
                   <input type="checkbox" id="newsletter" className="rounded-sm border-border text-gold focus:ring-gold" />
@@ -137,25 +205,25 @@ function CheckoutPage() {
               <h2 className="text-lg font-serif mb-6">Shipping Address</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-1">
-                  <Input placeholder="First Name *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
+                  <Input name="firstName" placeholder="First Name *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
                 </div>
                 <div className="col-span-1">
-                  <Input placeholder="Last Name *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
+                  <Input name="lastName" placeholder="Last Name *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
                 </div>
                 <div className="col-span-2">
-                  <Input placeholder="Address *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
+                  <Input name="address" placeholder="Address *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
                 </div>
                 <div className="col-span-2">
-                  <Input placeholder="Apartment, suite, etc. (optional)" className="bg-transparent border-border/50 rounded-[4px] h-12" />
+                  <Input name="apartment" placeholder="Apartment, suite, etc. (optional)" className="bg-transparent border-border/50 rounded-[4px] h-12" />
                 </div>
                 <div className="col-span-1">
-                  <Input placeholder="Postal Code *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
+                  <Input name="postalCode" placeholder="Postal Code *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
                 </div>
                 <div className="col-span-1">
-                  <Input placeholder="City *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
+                  <Input name="city" placeholder="City *" required className="bg-transparent border-border/50 rounded-[4px] h-12" />
                 </div>
                 <div className="col-span-2">
-                  <Input placeholder="Phone" type="tel" className="bg-transparent border-border/50 rounded-[4px] h-12" />
+                  <Input name="phone" placeholder="Phone" type="tel" className="bg-transparent border-border/50 rounded-[4px] h-12" />
                 </div>
               </div>
             </section>
